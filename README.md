@@ -9,14 +9,11 @@ Main ontology classes for modelling incidents is presented in following diagram.
 
 ![Incident model](https://raw.githubusercontent.com/OntoRep/COncORDE/master/EA8.png)
 
-Incident is the core class that links together different knowledge elements and defines the main data structure of an emergency incident. As Incident can be associated with data from different sources that provide information about an emergency incident. The Incident core ontology is also aligned with PROV ontology so that the Role, Entity and Activity concepts are reused (sub-class relations classes not included into the diagram, are shown in the upper right corner of the boxes)
+Incident is the core class that links together different knowledge elements and defines the main data structure of an emergency incident. As Incident can be associated with data from different sources that provide information about an emergency incident. The Incident model reuses various state of the art extenral ontologies such as ‘time:TemporalEntity’ and ‘geo:SpatialEntity’ concepts that are used to define start and end times and geographical locations of an incident.  The Incident core ontology is also aligned with PROV ontology so that the Role, Entity and Activity concepts are reused (sub-class relations classes not included into the diagram, are shown in the upper right corner of the boxes)
 
-Modelling of incident participants is shown in the next diagram
+Modelling of incident participants is shown in the next diagram. Participant class models various emergency response related roles and actors are associated to a specific incident individual.  
+
 ![Incident model](https://raw.githubusercontent.com/OntoRep/COncORDE/master/EA12.png)
-
-Participant class models various emergency response related roles and actors are associated to a specific incident individual. The Incident model reuses various state of the art extenral ontologies such as ‘time:TemporalEntity’ and ‘geo:SpatialEntity’ concepts that are used to define start and end times and geographical locations of an incident. 
-
--
 
 #References
 [1] COncORDE D3.3 Development of Coordination Mechanisms During Different Kinds of Emergencies
