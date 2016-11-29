@@ -1,0 +1,473 @@
+#Core languages and types 
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . #Resource data framework
+@prefix owl: <http://www.w3.org/2002/07/owl#> .              #Owl ontology language
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .      #RDF schema 
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .           #XML standard datatypes
+
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.   #RDF vocabulary of spatially-located things using WGS84 as reference datum
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .         #XML standard datatypes
+@prefix time: <http://www.w3.org/2001/XMLSchema#> .     #XML standard datatypes
+
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.       #Friend of a friend ontology for persons etc...
+
+@prefix con: <http://www.purl.org/Concorde#> .     #Concorde namespace TBD
+@prefix prov: <http://www.purl.org/PROV#> .     #PROV namespace TBD
+@prefix edxl: <http://www.purl.org/EDXL#> .     #EDXL namespace TBD
+@prefix org: <http://www.purl.org/ORG#> .     #EDXL namespace TBD
+
+#Useful metaclasses to tie into existing ontologies
+
+:Entity a owl:Class; 
+  rdfs:label "Entity"@en ;
+  rdfs:subClassOf prov:Entity;
+  rdfs:comment "Entity of information."@en.       
+   
+:Agent a owl:Class; 
+  rdfs:label "Agent"@en ;
+  rdfs:subClassOf prov:Agent, foaf:Agent;
+  rdfs:comment "Agent."@en.    
+
+:Role a owl:Class; 
+  rdfs:label "Role"@en ;
+  rdfs:subClassOf prov:Role;
+  rdfs:comment "Role of an agent."@en.  
+  
+:hasIdentity a owl:ObjectProperty;
+  rdfs:label "hasIdentity";
+  rdfs:domain :Role;
+  rdfs:range :Agent.
+
+:hasRole a owl:ObjectProperty;
+  rdfs:label "hasRole";
+  rdfs:inverseOf :hasIdentity;
+  rdfs:domain :Agent;
+  rdfs:range :Role.   
+  
+:Activity a owl:Class; 
+  rdfs:label "Activity"@en ;
+  rdfs:subClassOf prov:Activity;
+  rdfs:comment "Note prov:Activity defines startedAtTime and endedAtTime temporal properties."@en.   
+
+:Event a owl:Class; 
+  rdfs:label "Event"@en ;
+  rdfs:subClassOf prov:Entity, :Activity;
+  rdfs:comment "Event is modelled both as (temporal) activity and prov:Entity."@en.    
+    
+:hasInput a owl:DatatypeProperty ;
+   rdfs:label "hasInput";
+   rdfs:subPropertyOf prov:used;
+   rdfs:domain :Activity;
+   rdfs:range :Entity.
+   
+:hasOutput a owl:DatatypeProperty ;
+   rdfs:label "hasOutput";
+   owl:inverseOf prov:wasGeneratedBy;
+   rdfs:domain :Activity;
+   rdfs:range :Entity.   
+ 
+#Core ontology classes
+:Incident a owl:Class; 
+  rdfs:label "Incident"@en ;
+  rdfs:subClassOf prov:entity, prov:Activity, geo:SpatialEntity,time:TemporalEntity; 
+  rdfs:comment """Incident can be seen both as activity/event and entity that collects information related to itself."""@en.
+ 
+:Participant a owl:Class; 
+  rdfs:label "Participant"@en ;
+  rdfs:subClassOf :Role, edxl:Categorizable;
+  rdfs:comment "Participant role in a specific incident, can be categorized with various edxl categories"@en.   
+ 
+:hasParticipant a owl:ObjectProperty, owl:FunctionalProperty;
+  rdfs:label "hasParticipant";
+  rdfs:domain :Incident;
+  rdfs:range :Participant.  
+  
+:isParticipantOf a owl:ObjectProperty, owl:InverseFunctionalProperty;
+  rdfs:label "isParticipantOf";
+  owl:inverseOf :hasParticipant;
+  rdfs:domain :Incident;
+  rdfs:range :Participant.    
+
+:Resource a owl:Class; 
+  rdfs:label "Resource"@en;
+  rdfs:subClassOf :Participant;
+  rdfs:comment "Role of technical resource that participating at an incident"@en.    
+  
+:Actor a owl:Class; 
+  rdfs:label "Person"@en ;
+  rdfs:subClassOf :Participant;
+  rdfs:comment "Role for human participating an incident"@en.    
+  
+:Organization a owl:Class; 
+  rdfs:label "Organization"@en ;
+  rdfs:subClassOf :Participant, edxl:Organization, org:Organizaton;
+  rdfs:comment "Role of organization participating an incident"@en.      
+    
+#Subclasses of Participants
+  
+:Person a owl:Class;
+  rdfs:label "Victim"@en ;
+  rdfs:comment "A person related to incident."@en;
+  rdfs:subClassOf :Participant;    
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.
+  
+:PSAPStaff a owl:Class;
+  rdfs:label "PSAP_Staff"@en ;
+  rdfs:comment "A public-safety answering point (PSAP), sometimes called public-safety access point, is a call center responsible for answering calls to an emergency telephone number for police, firefighting, and ambulance services. "@en;
+  rdfs:subClassOf :Person;  
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>. 
+  
+:EMSStaff a owl:Class;
+  rdfs:label "EMS_Staff"@en ;
+  rdfs:comment "Emergency medical services, also known as ambulance services or paramedic services (abbreviated to the initialism EMS, EMAS, EMARS or SAMU in some countries), are a type of emergency service dedicated to providing out-of-hospital acute medical care, transport to definitive care, and other medical transport to patients with illnesses and injuries which prevent the patient from transporting themselves"@en;
+  rdfs:subClassOf :Person;  
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.   
+  
+:FieldStaff a owl:Class;
+  rdfs:label "EMSFieldStaff"@en ;
+  rdfs:comment "On the field staff."@en;
+  rdfs:subClassOf :EMSStaff;  
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.   
+       
+:PSAP_Operator a owl:Class;
+  rdfs:label "PSAPOperator"@en ;
+  rdfs:comment "Trained telephone operators responsible for dispatching  emergency services."@en;
+  rdfs:subClassOf :PSAPStaff;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>. 
+  
+:FieldCommander a owl:Class;
+  rdfs:label "FieldCommander"@en ;
+  rdfs:comment "Manages the incident and allocates Participants to field staff for patient management."@en;
+  rdfs:subClassOf :FieldStaff;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.   
+  
+:TriageRunner a owl:Class;
+  rdfs:label "TriageRunner"@en ;
+  rdfs:comment "Runs through allocated part of field and find affected people and (SORT) triage. After triage attaches coloured tag that can be seen by retrievers"@en;
+  rdfs:subClassOf :FieldStaff;
+  rdfs:isDefinedBy <http://purl.org/oncorde#actors>.  
+  
+:RetrievalRunner a owl:Class;
+  rdfs:label "RetrievalRunner"@en ;
+  rdfs:comment "Runs through allocated part of field and finds triaged people. Selects those with highest triage priority to be retrieved first"@en;
+  rdfs:subClassOf :FieldStaff;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.    
+  
+:FieldMedic a owl:Class;
+  rdfs:label "FieldMedic"@en ;
+  rdfs:comment "Field (Para)Medic treats retrieved patients at the medical treatment area. We provide assessment, monitoring and treatment, we determine the needs for First Receiver treatment and the referral destination. Allocates the transport to patients."@en;
+  rdfs:subClassOf :FieldStaff;  
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.     
+  
+:TransportStaff a owl:Class;
+  rdfs:label "TransportStaff"@en ;
+  rdfs:comment "We take a patient with a vehicle to FR."@en;
+  rdfs:subClassOf :EMSStaff;  
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.     
+  
+:FirstReceiverStaff a owl:Class;
+  rdfs:label "FirstReceiverStaff"@en ;
+  rdfs:comment "Make decisions on resource for emergency referrals."@en;
+  rdfs:subClassOf :EMSStaff;  
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.       
+
+:Caller a owl:Class;
+  rdfs:label "Caller"@en ;
+  rdfs:comment "Person involved in accident that has called 112 for help."@en;
+  rdfs:subClassOf :Person;  
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.
+  
+:Bystander a owl:Class;
+  rdfs:label "Bystander"@en ;
+  rdfs:comment "A member of public nearby an accident."@en;
+  rdfs:subClassOf :Person;  
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.  
+    
+:EMSEnRouteStaff a owl:Class;
+  rdfs:label "EMSEnRouteStaff"@en ;
+  rdfs:comment "EMS en route staff gets dispatched from PSAP to provide emergency medical care to a patient. They get a handover of information on dispatch."@en;
+  rdfs:subClassOf :EMSStaff;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.   
+    
+#Preliminary activities, possibly to be modelled as categories later
+
+:Monitoring a owl:Class;
+  rdfs:label "Monitoring"@en ;
+  rdfs:comment "Monitoring"@en;
+  rdfs:subClassOf :Activity;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.      
+
+:FRTreatment a owl:Class;
+  rdfs:label "FRTreatment"@en ;
+  rdfs:comment "First Receiver treatment."@en;
+  rdfs:subClassOf :Treatment;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.      
+
+:Transport a owl:Class;
+  rdfs:label "Transport"@en ;
+  rdfs:comment "Transport."@en;
+  rdfs:subClassOf :Activity;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.      
+
+:Allocation a owl:Class;
+  rdfs:label "Allocation"@en ;
+  rdfs:comment "Allocation."@en;
+  rdfs:subClassOf :Activity;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.    
+  
+:Documentation a owl:Class;
+  rdfs:label "Documentation"@en ;
+  rdfs:comment "Documentation."@en;
+  rdfs:subClassOf :Activity;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.     
+  
+:Handover a owl:Class;
+  rdfs:label "Handover"@en ;
+  rdfs:comment "Handover."@en;
+  rdfs:subClassOf :Activity;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.    
+
+:Evaluation a owl:Class;
+  rdfs:label "Evaluation"@en ;
+  rdfs:comment "Evaluation."@en;
+  rdfs:subClassOf :Activity;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.    
+  
+:Learning a owl:Class;
+  rdfs:label "Learning"@en ;
+  rdfs:comment "Learning."@en;
+  rdfs:subClassOf :Activity;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.      
+  
+:Query a owl:Class;
+  rdfs:label "Query"@en ;
+  rdfs:comment "Information retrieval activity."@en;
+  rdfs:subClassOf :Activity;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.        
+  
+#Preliminary query types (as input for activity), possibly to be modelled as categories later    
+:CheckInformation a owl:Class;
+  rdfs:label "CheckInformation"@en ;
+  rdfs:comment "Check all informaition what is available related to some entity."@en;
+  rdfs:subClassOf :Query;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.     
+
+:CheckAvailability a owl:Class;
+  rdfs:label "CheckAvailability"@en ;
+  rdfs:comment "Check immediately available resource (of certain type)"@en;
+  rdfs:subClassOf :Query;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.  
+
+:ContactByLocation a owl:Class;
+  rdfs:label "ContactByLocation"@en ;
+  rdfs:comment "Find and contact entities (e.g. field staff) by location."@en;
+  rdfs:subClassOf :Query;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.  
+  
+:ShowFieldLocation a owl:Class;
+  rdfs:label "GetFieldLocation"@en ;
+  rdfs:comment "See where one or more entities are in the field."@en;
+  rdfs:subClassOf :Query;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.    
+    
+:SeeNotifications a owl:Class;
+  rdfs:label "SeeNotifications"@en ;
+  rdfs:comment "Subscribe and receive notifications realated to updates of some data subset."@en;
+  rdfs:subClassOf :Query;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.    
+  
+:ShowSitRep a owl:Class;
+  rdfs:label "ShowSitRep"@en ;
+  rdfs:comment "See the projected patient numbers, mechanism of injury, their projected status"@en;
+  rdfs:subClassOf :Query;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.      
+ 
+#Tasks from D1.2
+:BasicFieldTask a owl:Class;
+  rdfs:label "BasicFieldTask"@en ;
+  rdfs:comment "BasicFieldTask"@en;
+  rdfs:subClassOf :Activity;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.    
+  
+:MedicalFieldTask a owl:Class;
+  rdfs:label "MedicalFieldTask"@en ;
+  rdfs:comment "MedicalFieldTask"@en;
+  rdfs:subClassOf :Activity;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.    
+
+:CommandTask a owl:Class;
+  rdfs:label "CommandTask"@en ;
+  rdfs:comment "CommandTask"@en;
+  rdfs:subClassOf :Activity;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.        
+  
+#Sub-tasks from D1.2
+
+:Triage a owl:Class;
+  rdfs:label "Triage"@en ;
+  rdfs:comment """Trauma triage is the use of trauma assessment for prioritising of patients for treatment or transport according to their severity of injury. Primary triage is carried out at the scene of an accident and secondary triage at the casualty clearing station at the site of a major incident. Triage is repeated prior to transport away from the scene and again at the receiving hospital."""@en;
+  rdfs:subClassOf :MedicalFieldTask;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.   
+
+:Triage1 a owl:Class;
+  rdfs:label "Triage1"@en ;
+  rdfs:comment "Triage1"@en;
+  rdfs:subClassOf :BasicFieldTask;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.       
+  
+:Triage2 a owl:Class;
+  rdfs:label "Triage2"@en ;
+  rdfs:comment "Triage2"@en;
+  rdfs:subClassOf :Triage;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.    
+     
+:Triage3 a owl:Class;
+  rdfs:label "Triage3"@en ;
+  rdfs:comment "Triage3"@en;
+  rdfs:subClassOf :Triage;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.   	  
+  
+:Retrieval a owl:Class;
+  rdfs:label "Retrieval"@en ;
+  rdfs:comment "Retrieval"@en;
+  rdfs:subClassOf :BasicFieldTask;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.        
+  	 
+:Treatment a owl:Class;
+  rdfs:label "Treatment"@en ;
+  rdfs:comment "Treatment."@en;
+  rdfs:subClassOf :MedicalFieldTask;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.    
+ 
+:Assessment a owl:Class;
+  rdfs:label "Assesment"@en ;
+  rdfs:comment "Assesment."@en;
+  rdfs:subClassOf :MedicalFieldTask;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.   
+  
+:Referral a owl:Class;
+  rdfs:label "Referral"@en ;
+  rdfs:comment "Referral."@en;
+  rdfs:subClassOf :MedicalFieldTask;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.     
+ 
+#Preliminary updated data types, possibly to be modelled as categories later   
+:Decision a owl:Class;
+  rdfs:label "Decision"@en ;
+  rdfs:comment "Documented decision (as a result of some activity)."@en;
+  rdfs:subClassOf :Entity;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.   
+   
+  
+ #Weather data report vocabulary as extension of EDXL vocabulary
+
+ :WeatherReport a owl:Class;
+  rdfs:label "WeatherReport"@en ;
+  rdfs:comment "Report containing various one or more quantitied values for one or more weather phenomenon."@en;
+  rdfs:subClassOf :Report, time:TemporalEntity;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.     
+  
+ :WeatherQuantity a owl:Class;
+  rdfs:label "WeatherQuantity"@en ;
+  rdfs:comment "Reports single quantified value of a weather phenomenon."@en;
+  rdfs:subClassOf :WeatherReport;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.       
+  
+:weatherValue a owl:DatatypeProperty;
+  rdfs:label "weatherValue"@en ;
+  rdfs:comment """Value related to a weather quantity. We use double for all."""@en;
+  rdfs:domain :WeatherQuantity; 
+  rdfs:range xsd:double;
+  rdfs:isDefinedBy <http://purl.org/concorde#actors>.  	
+
+  
+#Vocablulary of quantity categories similiar approach can be used for other quantifiable data   
+#Only one type of unit for phenomenon is allowed
+  
+ :WeatherPhenomenon a owl:Class;
+    rdfs:label "WeatherPhenomenon"@en ;
+    rdfs:comment "Weather phenomena category."@en;
+    rdfs:subClassOf :Category;
+	skos:broader qudt:QuantityKind;
+    rdfs:isDefinedBy <http://purl.org/concorde#actors>. 
+	
+ :AirTemperature a owl:Class;
+    rdfs:label "AirTemperature"@en ;
+    rdfs:comment "Air temperature."@en;
+	skos:broader qudt:Temperature;
+	:unit :DegreeCelcius;
+    rdfs:subClassOf edxl:WeatherPhenomenon;
+    rdfs:isDefinedBy <http://purl.org/concorde#actors>. 	
+	
+ :WindSpeed a owl:Class;
+    rdfs:label "WindSpeed"@en ;
+    rdfs:comment "Wind speed."@en;
+	skos:broader qudt:Speed; 
+	:unit :MeterPerSecond;
+    rdfs:subClassOf :WeatherPhenomenon;
+    rdfs:isDefinedBy <http://purl.org/concorde#actors>. 
+
+ :WindDirection a owl:Class;
+    rdfs:label "WindDirection"@en ;
+    rdfs:comment """Wind direction is usually reported in cardinal directions or in azimuth degrees. 
+	For example, a wind coming from the south is given as 180 degrees; one from the east is 90 degrees."""@en;
+	:unit :DegreeAzimuth;
+    rdfs:subClassOf :WeatherPhenomenon;
+    rdfs:isDefinedBy <http://purl.org/concorde#actors>. 	
+	
+ :Cloudiness a owl:Class;
+    rdfs:label "Cloudiness"@en ;
+    rdfs:comment "Cloudiness."@en;
+	skos:broader qudt:DimensionlessRatio;
+	:unit :Percent;
+    rdfs:subClassOf :WeatherPhenomenon;
+    rdfs:isDefinedBy <http://purl.org/concorde#actors>. 	
+	
+ :Precipitation a owl:Class;
+    rdfs:label "Precipitation"@en;
+    rdfs:comment "Precipitation."@en;
+	skos:broader qudt:Speed;
+	:unit :millimeterPerHour;
+    rdfs:subClassOf :WeatherPhenomenon;
+    rdfs:isDefinedBy <http://purl.org/concorde#actors>. 	
+	
+#Units needen in weather forecast
+
+ :Unit a owl:Class;
+    rdfs:label "Unit"@en;
+    rdfs:comment "Unit."@en;
+	skos:exactMatch qudt:Unit;
+    rdfs:isDefinedBy <http://purl.org/concorde#actors>. 
+
+ :MeterPerSecond a owl:Class;
+    rdfs:label "MeterPerSecond"@en;
+    rdfs:comment "MeterPerSecond."@en;
+	skos:exactMatch qudt:MeterPerSecond;
+    rdfs:subClassOf :Unit;
+    rdfs:isDefinedBy <http://purl.org/concorde#actors>. 	
+
+ :DegreeCeclius a owl:Class;
+    rdfs:label "DegreeCeclius"@en;
+    rdfs:comment "DegreeCeclius."@en;
+	skos:exactMatch qudt:DegreeCeclius;
+    rdfs:subClassOf :Unit;
+    rdfs:isDefinedBy <http://purl.org/concorde#actors>. 
+ 
+ :DegreeAzimuth a owl:Class;
+    rdfs:label "DegreeAzimuth"@en;
+    rdfs:comment "DegreeAzimuth."@en;
+    rdfs:subClassOf :Unit;
+    rdfs:isDefinedBy <http://purl.org/concorde#actors>.  
+ 
+ :MillimeterPerHour a owl:Class;
+    rdfs:label "MillimeterPerHour"@en;
+    rdfs:comment "MillimeterPerHour."@en;
+    rdfs:subClassOf :Unit;
+    rdfs:isDefinedBy <http://purl.org/concorde#actors>.  
+	
+ :Percent a owl:Class;
+    rdfs:label "Percent"@en;
+    rdfs:comment "Percent."@en;
+    skos:exactMatch qudt:Percent;
+    rdfs:subClassOf :Unit;
+    rdfs:isDefinedBy <http://purl.org/concorde#actors>.  	
+ 
