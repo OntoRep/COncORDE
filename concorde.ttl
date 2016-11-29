@@ -8,6 +8,7 @@
 @prefix skos: <http://www.w3.org/2008/05/skos#>.   #Simple Knowledge Organization System vechicle
 @prefix cc: <http://creativecommons.org/ns#>. #Creative commons namespace
 @prefix dc: <http://purl.org/dc/terms/> .     #Dublin Core Metadata Initiative terms
+@prefix qudt: <http://purl.org/qudt> .     #Namespace TBD
 
 #General ontologies
 @prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.   #RDF vocabulary of spatially-located things using WGS84 as reference datum
