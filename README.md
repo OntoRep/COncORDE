@@ -6,7 +6,7 @@ In COncORDE project incident information is represented with flexible ontologica
 ##Visualization of current status
 This document provides diagrams generated from Protege OntoGraph plug-in, those may not reflect the latest status of vocaubulary. A visualization of current snapshot of vocabulary can be found from:
 
-[WEBOWL online visualization of current snapshot of ontology.](http://vowl.visualdataweb.org/webvowl/#iri=https://raw.githubusercontent.com/OntoRep/EDXL/master/concorde.ttl "WEBOWL visualization")
+[WEBOWL online visualization of current snapshot of ontology.](http://vowl.visualdataweb.org/webvowl/#iri=https://raw.githubusercontent.com/OntoRep/COncORDE/master/concorde.ttl "WEBOWL visualization")
 
 
 #Overview of ontology
