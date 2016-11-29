@@ -4,16 +4,22 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .      #RDF schema 
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .           #XML standard datatypes
 
+#Standard linked data terms
+@prefix skos: <http://www.w3.org/2008/05/skos#>.   #Simple Knowledge Organization System vechicle
+@prefix cc: <http://creativecommons.org/ns#>. #Creative commons namespace
+@prefix dc: <http://purl.org/dc/terms/> .     #Dublin Core Metadata Initiative terms
+
+#General ontologies
 @prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.   #RDF vocabulary of spatially-located things using WGS84 as reference datum
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .         #XML standard datatypes
 @prefix time: <http://www.w3.org/2001/XMLSchema#> .     #XML standard datatypes
 
 @prefix foaf: <http://xmlns.com/foaf/0.1/>.       #Friend of a friend ontology for persons etc...
-
 @prefix con: <http://www.purl.org/Concorde#> .     #Concorde namespace TBD
 @prefix prov: <http://www.purl.org/PROV#> .     #PROV namespace TBD
-@prefix edxl: <http://www.purl.org/EDXL#> .     #EDXL namespace TBD
 @prefix org: <http://www.purl.org/ORG#> .     #EDXL namespace TBD
+
+@prefix edxl: <http://www.purl.org/EDXL#> .     #EDXL namespace TBD
 
 #Useful metaclasses to tie into existing ontologies
 
