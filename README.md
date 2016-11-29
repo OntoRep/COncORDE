@@ -1,7 +1,7 @@
 # COncORDE incident model
 
 #Introduction
-In COncORDE project incident information is represented with flexible ontological model that can be served as an intelligent context-aware semantic data store for the Incident related information [1].  Core concepts of incident model can be extended with a vocabulary based on EDXL standard that provides various categorizations for concepts such as types of incidents and resources and organization participating it. Incident model is aligned with PROV-O ontology so that it supprots decision making by modelling by who, by which activity, when and based on which information the decisions was made [2].
+In COncORDE project incident information is represented with flexible ontological model that can be served as an intelligent context-aware semantic data store for the Incident related information [1].  Core concepts of incident model can be categorized with a vocabulary based on EDXL standard that provides various categorizations for concepts such as types of incidents and resources and organization participating it. Incident model is aligned with PROV-O ontology so that it supprots decision making by modelling by who, by which activity, when and based on which information the decisions was made [2].
 
 #Overview of ontology
 
@@ -13,7 +13,13 @@ Incident is the core class that links together different knowledge elements and 
 
 Modelling of incident participants is shown in the next diagram. Participant class models various emergency response related roles and actors are associated to a specific incident individual.  
 
-![Incident model](https://raw.githubusercontent.com/OntoRep/COncORDE/master/EA12.png)
+![Participants](https://raw.githubusercontent.com/OntoRep/COncORDE/master/EA12.png)
+
+Resource class models participants needed for accomplishing different assignments in an emergency response scenario. COncCORDE incident ontology provides provides vocabularies for defining specific activities required by roles and matching thoses of profiles of persons and organization (i.e. agents) identified in the COncORDE project but not covered by EDXL standard. 
+
+![Participants](https://raw.githubusercontent.com/OntoRep/COncORDE/master/EA16.png)
+
+Incident ontology also provides simple vocabulaires for environmental information such as weather using similar approach than EDXL vocabulary.
 
 #References
 [1] COncORDE D3.3 Development of Coordination Mechanisms During Different Kinds of Emergencies
