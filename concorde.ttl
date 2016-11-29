@@ -22,7 +22,15 @@
 
 @prefix edxl: <http://www.purl.org/EDXL#> .     #EDXL namespace TBD
 
-#Useful metaclasses to tie into existing ontologies
+:EDXLVocabulary rdf:type voaf:Vocabulary, owl:Ontology;
+  dc:creator <http://www.vtt.fi/JarmoKalaoja> ;
+  dc:description "Incident ontology defined in COncORDE project."@en ;
+  dc:issued "2016-11-29"^^xsd:date ;
+  dc:modified "2016-11-29"^^xsd:date ;
+  dc:title "Incident Ontology"@en ;
+  vann:preferredNamespacePrefix "con" ;
+  vann:preferredNamespaceUri <http://w3id.org/concorde/ontology/concorde#> ;
+  owl:versionInfo "v0.2" .
 
 :Entity a owl:Class; 
   rdfs:label "Entity"@en ;
