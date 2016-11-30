@@ -162,7 +162,7 @@
   
 :Organization a owl:Class; 
   rdfs:label "Organization"@en ;
-  rdfs:subClassOf :Participant, edxl:Organization, org:Organizaton;
+  rdfs:subClassOf :Participant, edxl:Organization, org:Organization;
   rdfs:comment "Role of organization participating an incident"@en.      
     
 #Subclasses of Participants
@@ -449,7 +449,7 @@
  :WeatherPhenomenon a owl:Class;
     rdfs:label "WeatherPhenomenon"@en ;
     rdfs:comment "Weather phenomena category."@en;
-    rdfs:subClassOf :Category;
+    rdfs:subClassOf edxl:Category;
 	skos:broader qudt:QuantityKind;
     rdfs:isDefinedBy <http://purl.org/concorde#actors>. 
 	
