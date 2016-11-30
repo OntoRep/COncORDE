@@ -4,7 +4,7 @@
 In COncORDE project incident information is represented with flexible ontological model that can be served as an intelligent context-aware semantic data store for the Incident related information [1].  Core concepts of incident model can be categorized with a vocabulary based on EDXL standard that provides various categorizations for concepts such as types of incidents and resources and organization participating it (https://github.com/OntoRep/EDXL). Incident model is aligned with PROV-O ontology so that it supprots decision making by modelling by who, by which activity, when and based on which information the decisions was made [2].
 
 ##Visualization of current status
-This document provides diagrams generated from Enterprice Architect ODM plugin and Protege OntoGraph plug-in, those may not reflect the latest status of vocaubulary. A visualization of current snapshot of vocabulary can be found from:
+This document provides diagrams generated from Enterprice Architect ODM plugin and Protege OntoGraph plug-in, those may not reflect the latest status of vocabulary. A visualization of current snapshot of vocabulary can be found from:
 
 [WEBOWL online visualization of current snapshot of ontology.](http://vowl.visualdataweb.org/webvowl/#iri=https://raw.githubusercontent.com/OntoRep/COncORDE/master/concorde.ttl "WEBOWL visualization")
 
@@ -26,6 +26,24 @@ Resource class models participants needed for accomplishing different assignment
 ![Participants](https://raw.githubusercontent.com/OntoRep/COncORDE/master/EA16.png)
 
 Incident ontology also provides simple vocabulaires for environmental information such as weather using similar approach than EDXL vocabulary.
+
+#Some rationale for design choices
+
+Ontology implementation (as also in EDXL vocabulary) uses design pattern where instead of direct subclassing a class is defined as a subclass edxl:Categorizable defined with edxl:hasCategory  with domain edxl:Category. Rationale is that this allows information providers for incident define what the category of incident or resource as opposed that the categorization would rely on reasoner classifier.
+
+EDXL vocabulary is kept separate from incident model to allow independen development of those and better separate what is specific to COncORDE and what is defined by EDXL standard.
+
+Molelling of incidents treats participants as somebody or a resource participating in a incident specific role. A role needed in incident can be defined before actual person, organization or resource to fulfill the role has been identified.
+
+Decision making support in incident model relies on prov-o ontology so that quite refined proveneance information can be modelled. Prov-o is quite complex ontology so in typical use cases it might be better to select a subset of prov-o properties to clarify processing.
+
+
+
+
+
+
+
+
 
 #References
 [1] COncORDE D3.3 Development of Coordination Mechanisms During Different Kinds of Emergencies
