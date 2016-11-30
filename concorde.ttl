@@ -26,11 +26,11 @@
 @prefix vs: <http://www.w3.org/2003/06/sw-vocab-status/ns#> . #Semantic web vocabulary status ontology
 @prefix void: <https://www.w3.org/TR/void/>. #Vocabulary of interelinked datasets 
 
-@prefix edxl: <http://www.purl.org/EDXL#> .     #EDXL namespace TBD
+@prefix edxl: <http://w3id.org/concorde/ontology/EDXL#> .     #Namespace may change in the future
 
 :EDXLVocabulary rdf:type voaf:Vocabulary, owl:Ontology;
   dc:creator <http://www.vtt.fi/JarmoKalaoja> ;
-  dc:description "Incident ontology defined in COncORDE project."@en ;
+  dc:description """Incident ontology defined in COncORDE project. This ontology allows modellin incident events and associated resources"""@en ;
   dc:issued "2016-11-29"^^xsd:date ;
   dc:modified "2016-11-29"^^xsd:date ;
   dc:title "Incident Ontology"@en ;
@@ -66,8 +66,13 @@
   
 :Activity a owl:Class; 
   rdfs:label "Activity"@en ;
-  rdfs:subClassOf prov:Activity;
+  rdfs:subClassOf prov:Activity, edxl:Categorizable;
   rdfs:comment "Note prov:Activity defines startedAtTime and endedAtTime temporal properties."@en.   
+
+:ActivityCategory a owl:Class; 
+  rdfs:label "ActivityCategory"@en ;
+  rdfs:subClassOf edxl:Category;
+  rdfs:comment "Categories of typical acitivites realated to incident."@en.   
 
 :Event a owl:Class; 
   rdfs:label "Event"@en ;
@@ -89,7 +94,7 @@
 #Core ontology classes
 :Incident a owl:Class; 
   rdfs:label "Incident"@en ;
-  rdfs:subClassOf prov:entity, prov:Activity, geo:SpatialEntity,time:TemporalEntity; 
+  rdfs:subClassOf prov:Entity, prov:Activity, geo:SpatialEntity,time:TemporalEntity; 
   rdfs:comment """Incident can be seen both as activity/event and entity that collects information related to itself."""@en.
  
 :Participant a owl:Class; 
@@ -214,7 +219,7 @@
 :Monitoring a owl:Class;
   rdfs:label "Monitoring"@en ;
   rdfs:comment "Monitoring"@en;
-  rdfs:subClassOf :Activity;
+  rdfs:subClassOf :ActivityCategory;
   rdfs:isDefinedBy <http://purl.org/concorde#actors>.      
 
 :FRTreatment a owl:Class;
@@ -226,43 +231,43 @@
 :Transport a owl:Class;
   rdfs:label "Transport"@en ;
   rdfs:comment "Transport."@en;
-  rdfs:subClassOf :Activity;
+  rdfs:subClassOf :ActivityCategory;
   rdfs:isDefinedBy <http://purl.org/concorde#actors>.      
 
 :Allocation a owl:Class;
   rdfs:label "Allocation"@en ;
   rdfs:comment "Allocation."@en;
-  rdfs:subClassOf :Activity;
+  rdfs:subClassOf :ActivityCategory;
   rdfs:isDefinedBy <http://purl.org/concorde#actors>.    
   
 :Documentation a owl:Class;
   rdfs:label "Documentation"@en ;
   rdfs:comment "Documentation."@en;
-  rdfs:subClassOf :Activity;
+  rdfs:subClassOf :ActivityCategory;
   rdfs:isDefinedBy <http://purl.org/concorde#actors>.     
   
 :Handover a owl:Class;
   rdfs:label "Handover"@en ;
   rdfs:comment "Handover."@en;
-  rdfs:subClassOf :Activity;
+  rdfs:subClassOf :ActivityCategory;
   rdfs:isDefinedBy <http://purl.org/concorde#actors>.    
 
 :Evaluation a owl:Class;
   rdfs:label "Evaluation"@en ;
   rdfs:comment "Evaluation."@en;
-  rdfs:subClassOf :Activity;
+  rdfs:subClassOf :ActivityCategory;
   rdfs:isDefinedBy <http://purl.org/concorde#actors>.    
   
 :Learning a owl:Class;
   rdfs:label "Learning"@en ;
   rdfs:comment "Learning."@en;
-  rdfs:subClassOf :Activity;
+  rdfs:subClassOf :ActivityCategory;
   rdfs:isDefinedBy <http://purl.org/concorde#actors>.      
   
 :Query a owl:Class;
   rdfs:label "Query"@en ;
-  rdfs:comment "Information retrieval activity."@en;
-  rdfs:subClassOf :Activity;
+  rdfs:comment "Typical information retrieval activities."@en;
+  rdfs:subClassOf :ActivityCategory;
   rdfs:isDefinedBy <http://purl.org/concorde#actors>.        
   
 #Preliminary query types (as input for activity), possibly to be modelled as categories later    
