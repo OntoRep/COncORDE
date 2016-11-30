@@ -33,7 +33,7 @@ Ontology implementation (as also in EDXL vocabulary) uses design pattern where i
 
 EDXL vocabulary is kept separate from incident model to allow independen development of those and better separate what is specific to COncORDE and what is defined by EDXL standard.
 
-Molelling of incidents treats participants as somebody or a resource participating in a incident specific role. A role needed in incident can be defined before actual person, organization or resource to fulfill the role has been identified.
+Modeling of incidents treats participants as somebody or a resource participating in a incident specific role. A role needed in incident can be defined before actual person, organization or resource to fulfill the role has been identified.
 
 Decision making support in incident model relies on prov-o ontology so that quite refined proveneance information can be modelled. Prov-o is quite complex ontology so in typical use cases it might be better to select a subset of prov-o properties to clarify processing.
 
