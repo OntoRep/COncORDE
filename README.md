@@ -27,7 +27,9 @@ Resource class models participants needed for accomplishing different assignment
 
 Incident ontology also provides simple vocabulaires for environmental information such as weather using similar approach than EDXL vocabulary.
 
-#Some rationale for design choices
+
+
+#Rationale for ontology design 
 
 Ontology implementation (as also in EDXL vocabulary) uses design pattern where instead of direct subclassing a class is defined as a subclass edxl:Categorizable defined with edxl:hasCategory  with domain edxl:Category. Rationale is that this allows information providers for incident define what the category of incident or resource as opposed that the categorization would rely on reasoner classifier.
 
