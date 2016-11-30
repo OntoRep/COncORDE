@@ -144,6 +144,17 @@
    rdfs:domain :Incident;
    rdfs:range :Report.
 
+:Schedule a owl:Class; 
+  rdfs:label "Schedule"@en;
+  rdfs:subClassOf prov:Entity, edxl:ScheduleInformation;
+  rdfs:comment "Schedule of a resource."@en.    
+
+:hasSchedule a owl:ObjectProperty ;
+   rdfs:label "hasReport";
+   rdfs:subPropertyOf :hasReport;
+   rdfs:domain :Resource;
+   rdfs:range :Schedule.
+
 :Actor a owl:Class; 
   rdfs:label "Person"@en ;
   rdfs:subClassOf :Participant;
