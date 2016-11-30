@@ -13,7 +13,7 @@
 #General ontologies
 @prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.   #RDF vocabulary of spatially-located things using WGS84 as reference datum
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .         #XML standard datatypes
-@prefix time: <http://www.w3.org/2001/XMLSchema#> .     #XML standard datatypes
+@prefix time: <http://www.w3.org/TR/owl-time/> .     #OWL time ontology
 
 @prefix foaf: <http://xmlns.com/foaf/0.1/>.       #Friend of a friend ontology for persons etc...
 @prefix con: <http://www.purl.org/Concorde#> .     #Concorde namespace TBD
@@ -27,6 +27,8 @@
 @prefix void: <https://www.w3.org/TR/void/>. #Vocabulary of interelinked datasets 
 
 @prefix edxl: <http://w3id.org/concorde/ontology/EDXL#> .     #Namespace may change in the future
+
+@prefix : <http://w3id.org/concorde/ontology/concorde#> .     #default namespace
 
 :EDXLVocabulary rdf:type voaf:Vocabulary, owl:Ontology;
   dc:creator <http://www.vtt.fi/JarmoKalaoja> ;
@@ -79,13 +81,13 @@
   rdfs:subClassOf prov:Entity, :Activity;
   rdfs:comment "Event is modelled both as (temporal) activity and prov:Entity."@en.    
     
-:hasInput a owl:DatatypeProperty ;
+:hasInput a owl:ObjectProperty ;
    rdfs:label "hasInput";
    rdfs:subPropertyOf prov:used;
    rdfs:domain :Activity;
    rdfs:range :Entity.
    
-:hasOutput a owl:DatatypeProperty ;
+:hasOutput a owl:ObjectProperty ;
    rdfs:label "hasOutput";
    owl:inverseOf prov:wasGeneratedBy;
    rdfs:domain :Activity;
@@ -94,8 +96,10 @@
 #Core ontology classes
 :Incident a owl:Class; 
   rdfs:label "Incident"@en ;
-  rdfs:subClassOf prov:Entity, prov:Activity, geo:SpatialEntity,time:TemporalEntity; 
-  rdfs:comment """Incident can be seen both as activity/event and entity that collects information related to itself."""@en.
+  rdfs:subClassOf prov:Entity, prov:Activity, geo:SpatialEntity, time:TemporalEntity; 
+  rdfs:comment """Incident can be seen both as activity/event and entity that collects information related to itself. 
+                  As subclass of prov:Activity Incident temporal porperties can be expressed with startedAtTime and endedAtTime but it is 
+                  also a time:Temporal entity with more refined means to express temporal information if needed."""@en.
  
 :Participant a owl:Class; 
   rdfs:label "Participant"@en ;
@@ -117,7 +121,29 @@
   rdfs:label "Resource"@en;
   rdfs:subClassOf :Participant;
   rdfs:comment "Role of technical resource that participating at an incident"@en.    
-  
+
+:Source a owl:Class; 
+  rdfs:label "Source"@en;
+  rdfs:subClassOf prov:Entity, edxl:Resource;
+  rdfs:comment "Data resource providing input for incident."@en.    
+
+:hasSource a owl:ObjectProperty ;
+   rdfs:label "hasSource";
+   rdfs:subPropertyOf :hasInput;
+   rdfs:domain :Incident;
+   rdfs:range :Source.
+
+:Report a owl:Class; 
+  rdfs:label "Report"@en;
+  rdfs:subClassOf prov:Entity, edxl:Resource;
+  rdfs:comment "Data report compiled from incident model."@en.    
+
+:hasReport a owl:ObjectProperty ;
+   rdfs:label "hasReport";
+   rdfs:subPropertyOf :hasInput;
+   rdfs:domain :Incident;
+   rdfs:range :Report.
+
 :Actor a owl:Class; 
   rdfs:label "Person"@en ;
   rdfs:subClassOf :Participant;
@@ -388,8 +414,8 @@
 
  :WeatherReport a owl:Class;
   rdfs:label "WeatherReport"@en ;
-  rdfs:comment "Report containing various one or more quantitied values for one or more weather phenomenon."@en;
-  rdfs:subClassOf :Report, time:TemporalEntity;
+  rdfs:comment """Report containing various one or more quantitied values for one or more weather phenomenon."""@en;
+  rdfs:subClassOf :Source, time:TemporalEntity;
   rdfs:isDefinedBy <http://purl.org/concorde#actors>.     
   
  :WeatherQuantity a owl:Class;
