@@ -3,7 +3,7 @@
 #Introduction
 In COncORDE project incident information is represented with flexible ontological model that can be served as an intelligent context-aware semantic data store for the Incident related information [1].  Core concepts of incident model can be categorized with a vocabulary based on EDXL standard that provides various categorizations for concepts such as types of incidents and resources and organization participating it (https://github.com/OntoRep/EDXL). Incident model is aligned with PROV-O ontology so that it supprots decision making by modelling by who, by which activity, when and based on which information the decisions was made [2].
 
-Instructions on how to use this ontology together with EDXL vocabulary are provided in the wiki pages of this repository. 
+Instructions on how to use this ontology together with EDXL vocabulary are provided in the wiki pages of this repository. Basic tutorial can be found from: https://github.com/OntoRep/COncORDE/wiki/Creating-an-incident-description.
 
 ##Visualization of current status
 This document provides diagrams generated from Enterprice Architect ODM plugin and Protege OntoGraph plug-in, those may not reflect the latest status of vocabulary. A visualization of current snapshot of vocabulary can be found from:
