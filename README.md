@@ -1,17 +1,19 @@
 # COncORDE incident model
 
-#Introduction
+# Introduction
+
 In COncORDE project incident information is represented with flexible ontological model that can be served as an intelligent context-aware semantic data store for the Incident related information [1].  Core concepts of incident model can be categorized with a vocabulary based on EDXL standard that provides various categorizations for concepts such as types of incidents and resources and organization participating it. Incident model is aligned with PROV-O ontology so that it supprots decision making by modelling by who, by which activity, when and based on which information the decisions was made [2].
 
 Instructions on how to use this ontology together with  [EDXL vocabulary](https://github.com/OntoRep/EDXL) are provided in the wiki pages of this repository. Basic tutorial can be found from: https://github.com/OntoRep/COncORDE/wiki/Creating-an-incident-description.
 
-##Visualization of current status
+## Visualization of current status
+
 This document provides diagrams generated from Enterprice Architect ODM plugin and Protege OntoGraph plug-in, those may not reflect the latest status of vocabulary. A visualization of current snapshot of vocabulary can be found from:
 
 [WEBOWL online visualization of current snapshot of ontology.](http://vowl.visualdataweb.org/webvowl/#iri=https://raw.githubusercontent.com/OntoRep/COncORDE/master/concorde.ttl "WEBOWL visualization")
 
 
-#Overview of ontology
+# Overview of ontology
 
 Main ontology classes for modelling incidents is presented in following diagram.
 
@@ -31,7 +33,7 @@ Incident ontology also provides simple vocabulaires for environmental informatio
 
 
 
-#Rationale for ontology design 
+# Rationale for ontology design 
 
 Ontology implementation (as also in EDXL vocabulary) uses design pattern where instead of direct subclassing a class is defined as a subclass edxl:Categorizable defined with edxl:hasCategory  with domain edxl:Category. Rationale is that this allows information providers for incident define what the category of incident or resource as opposed that the categorization would rely on reasoner classifier.
 
@@ -49,7 +51,7 @@ Decision making support in incident model relies on prov-o ontology so that quit
 
 
 
-#References
+# References
 [1] COncORDE D3.3 Development of Coordination Mechanisms During Different Kinds of Emergencies
 
 [2] COncORDE D3.4 Situational awareness and joint decision support
